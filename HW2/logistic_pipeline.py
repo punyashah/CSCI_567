@@ -79,7 +79,9 @@ def logistic_loss(w, X, y):
     where a = -z for y=1 and a = z for y=0, z = Xw.
     """
     # TODO: implement
-    raise NotImplementedError
+    z = X @ w
+    a = np.where(y == 1, -z, z)
+    return np.mean(np.maximum(a, 0) + np.log1p(np.exp(-(np.abs(a)))))
 
 
 def gradient(w, X, y):
