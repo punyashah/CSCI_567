@@ -74,7 +74,10 @@ def step_size(K, lam):
 def train_kernel_gd(K, y, lam, eta, iters):
     """Full-batch GD on kernel_objective from alpha = 0. Return alpha."""
     # TODO: implement
-    raise NotImplementedError
+    alpha = np.zeros(K.shape[1])
+    for _ in range(iters):
+        alpha = alpha - eta * kernel_gradient(alpha, K, y, lam)
+    return alpha
 
 
 def kernel_predict(alpha, Xtrain, Xnew, gamma):
