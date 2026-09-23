@@ -134,7 +134,10 @@ def l2_gradient(w, X, y, lam):
 def train_gd_l2(X, y, lam, eta, iters):
     """Full-batch GD on l2_objective from w = 0. Return w."""
     # TODO: implement
-    raise NotImplementedError
+    w = np.zeros(X.shape[1])
+    for _ in range(iters):
+        w = w - eta * l2_gradient(w, X, y, lam)
+    return w
 
 
 # ============================================================
