@@ -147,7 +147,7 @@ def train_gd_l2(X, y, lam, eta, iters):
 def soft_threshold(v, tau):
     """Elementwise: sign(v) * max(|v| - tau, 0)."""
     # TODO: implement
-    raise NotImplementedError
+    return np.sign(v) * np.maximum(np.abs(v) - tau, 0)
 
 
 def train_ista_l1(X, y, lam, eta, iters):
