@@ -61,7 +61,8 @@ def kernel_objective(alpha, K, y, lam):
 def kernel_gradient(alpha, K, y, lam):
     """K [ (1/n)(sigmoid(K alpha) - y) + lam * alpha ]  (Lecture 04)."""
     # TODO: implement
-    raise NotImplementedError
+    n = K.shape[0]
+    return K @ ((1/n) * (sigmoid(K @ alpha) - y) + lam * alpha)
 
 
 def step_size(K, lam):
