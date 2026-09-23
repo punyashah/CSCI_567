@@ -46,7 +46,13 @@ def min_max_scale(X_train, *others):
     by 1 instead of 0). Return (scaled X_train, scaled others...).
     """
     # TODO: implement
-    raise NotImplementedError
+    xmin = X_train.min(axis=0)
+    xmax = X_train.max(axis=0)
+    rng = xmax - xmin
+    rng = np.where(rng == 0, 1, rng)
+    scaled_train = (X_train - xmin) / rng
+    scaled_others = [((X - xmin) / rng) for X in others]
+    return (scaled_train, *scaled_others)
 
 
 def add_bias(X):
@@ -55,7 +61,6 @@ def add_bias(X):
     Every penalty below must skip that coordinate. Call this AFTER scaling."""
     # TODO: implement
     return np.hstack([X, np.ones((X.shape[0], 1))])
-    raise NotImplementedError
 
 
 def sigmoid(z):
