@@ -121,7 +121,7 @@ def error_rate(yhat, y):
 def l2_objective(w, X, y, lam):
     """logistic_loss(w) + (lam/2) * sum_{j != bias} w_j^2."""
     # TODO: implement
-    raise NotImplementedError
+    return logistic_loss(w, X, y) + (lam/2) * np.sum(w[:-1]**2)
 
 
 def l2_gradient(w, X, y, lam):
