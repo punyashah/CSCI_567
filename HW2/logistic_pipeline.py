@@ -87,7 +87,9 @@ def logistic_loss(w, X, y):
 def gradient(w, X, y):
     """(1/n) X^T (sigmoid(Xw) - y)  -- derived in Lecture 02."""
     # TODO: implement
-    raise NotImplementedError
+    z = X @ w
+    n = X.shape[0]
+    return (1/n) * (X.T @ (sigmoid(z) - y))
 
 
 def train_gd(X, y, eta, iters):
