@@ -106,12 +106,12 @@ def train_gd(X, y, eta, iters):
 def predict_labels(w, X, threshold=0.5):
     """Predict 1 where sigmoid(Xw) >= threshold, else 0."""
     # TODO: implement
-    raise NotImplementedError
+    return (sigmoid(X @ w) >= threshold).astype(float)
 
 
 def error_rate(yhat, y):
     # TODO: implement
-    raise NotImplementedError
+    return np.mean(yhat != y)
 
 
 # ============================================================
