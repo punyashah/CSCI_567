@@ -54,6 +54,7 @@ def add_bias(X):
     fold-in from Lecture 02), so the bias is always the last coordinate of w.
     Every penalty below must skip that coordinate. Call this AFTER scaling."""
     # TODO: implement
+    return np.hstack([X, np.ones((X.shape[0], 1))])
     raise NotImplementedError
 
 
