@@ -127,8 +127,9 @@ def l2_objective(w, X, y, lam):
 def l2_gradient(w, X, y, lam):
     """Gradient of l2_objective. Do NOT penalize the bias coordinate."""
     # TODO: implement
-    raise NotImplementedError
-
+    reg = w * lam
+    reg[-1] = 0
+    return gradient(w, X, y) + reg
 
 def train_gd_l2(X, y, lam, eta, iters):
     """Full-batch GD on l2_objective from w = 0. Return w."""
