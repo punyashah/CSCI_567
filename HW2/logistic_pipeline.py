@@ -68,7 +68,8 @@ def sigmoid(z):
     number: use 1/(1+e^{-z}) where z >= 0 and e^{z}/(1+e^{z}) where z < 0.
     """
     # TODO: implement
-    raise NotImplementedError
+    e = np.exp(-(np.abs(z)))
+    return np.where(z >= 0, 1 / (1 + e), e / (1 + e))
 
 
 def logistic_loss(w, X, y):
