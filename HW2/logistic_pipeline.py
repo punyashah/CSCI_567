@@ -95,7 +95,12 @@ def gradient(w, X, y):
 def train_gd(X, y, eta, iters):
     """Full-batch GD from w = 0. Return (w, loss history of length iters+1)."""
     # TODO: implement
-    raise NotImplementedError
+    w = np.zeros(X.shape[1])
+    history = [logistic_loss(w, X, y)]
+    for _ in range(iters):
+        w = w - eta * gradient(w, X, y)
+        history.append(logistic_loss(w, X, y))
+    return w, np.array(history)
 
 
 def predict_labels(w, X, threshold=0.5):
