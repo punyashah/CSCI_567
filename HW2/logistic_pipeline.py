@@ -106,7 +106,7 @@ def train_gd(X, y, eta, iters):
 def predict_labels(w, X, threshold=0.5):
     """Predict 1 where sigmoid(Xw) >= threshold, else 0."""
     # TODO: implement
-    return (sigmoid(X @ w) >= threshold).astype(float)
+    return (sigmoid(X @ w) >= threshold)
 
 
 def error_rate(yhat, y):
@@ -156,7 +156,13 @@ def train_ista_l1(X, y, lam, eta, iters):
         w <- soft_threshold(v, eta * lam)   (except the bias, which keeps v[-1])
     from w = 0. Return w."""
     # TODO: implement
-    raise NotImplementedError
+    w = np.zeros(X.shape[1])
+    for _ in range(iters):
+        v = w - eta * gradient(w, X, y)
+        w = soft_threshold(v, eta * lam)
+        w[-1] = v[-1]
+    return w
+
 
 
 # ============================================================
