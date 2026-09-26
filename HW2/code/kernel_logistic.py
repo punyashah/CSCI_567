@@ -49,7 +49,7 @@ def rbf_kernel(A, B, gamma):
     # TODO: implement
     A_sq = np.sum(A**2, axis=1)[:, None]
     B_sq = np.sum(B**2, axis=1)[None, :]
-    sq_dists = np.max(A_sq + B_sq - 2 * (A @ np.transpose(B)), 0)
+    sq_dists = np.maximum(A_sq + B_sq - 2 * (A @ np.transpose(B)), 0)
     return np.exp(-gamma * sq_dists)
 
 
@@ -59,13 +59,14 @@ def kernel_objective(alpha, K, y, lam):
     (Lecture 04's kernel logistic regression slide). Hint: logistic_loss(w, X, y)
     computes the mean loss of the scores X @ w."""
     # TODO: implement
-    raise NotImplementedError
+    return logistic_loss(alpha, K, y) + (lam / 2) * (alpha @ K @ alpha)
+
 
 
 def kernel_gradient(alpha, K, y, lam):
     """K [ (1/n)(sigmoid(K alpha) - y) + lam * alpha ]  (Lecture 04)."""
     # TODO: implement
-    raise NotImplementedError
+    return K @ ((1 / len(y)) * (sigmoid(K @ alpha) - y) + (lam * alpha))
 
 
 def step_size(K, lam):
@@ -77,13 +78,17 @@ def step_size(K, lam):
 def train_kernel_gd(K, y, lam, eta, iters):
     """Full-batch GD on kernel_objective from alpha = 0. Return alpha."""
     # TODO: implement
-    raise NotImplementedError
+    alpha = np.zeros(K.shape[0])
+    for _ in range(iters):
+        alpha = alpha - eta * kernel_gradient(alpha, K, y, lam)
+    return alpha
 
 
 def kernel_predict(alpha, Xtrain, Xnew, gamma):
     """Labels for Xnew: 1 where sigmoid(sum_i alpha_i kappa(x_new, x_i)) >= 0.5."""
     # TODO: implement
-    raise NotImplementedError
+    K_new = rbf_kernel(Xnew, Xtrain, gamma)
+    return (sigmoid(K_new @ alpha) >= 0.5)
 
 
 # ---------------- the two unlearned neighbour heuristics ----------------
@@ -94,14 +99,22 @@ def knn_predict(Xtrain, ytrain, Xnew, k):
     of them have label 1 (so ties go to 0). No Python loop over points needed:
     compute all squared distances at once, then np.argsort along axis 1."""
     # TODO: implement
-    raise NotImplementedError
+    Xnew_sq = np.sum(Xnew ** 2, axis=1)[:, None]
+    Xtrain_sq = np.sum(Xtrain ** 2, axis=1)[None, :]
+    sq_dists = np.maximum(Xnew_sq + Xtrain_sq - 2 * (Xnew @ np.transpose(Xtrain)), 0)
+
+    k_nearest = np.argsort(sq_dists, axis=1)[:, :k]
+    neighbor_labels = ytrain[k_nearest]
+    return (np.mean(neighbor_labels, axis=1) > 0.5)
 
 
 def weighted_vote_predict(Xtrain, ytrain, Xnew, gamma):
     """Kernel-weighted vote: score(x) = sum_i kappa(x, x_i) * (2 y_i - 1) with the
     RBF kernel; predict 1 iff the score is positive."""
     # TODO: implement
-    raise NotImplementedError
+    K_new = rbf_kernel(Xnew, Xtrain, gamma)
+    scores = K_new @ (2*ytrain - 1)
+    return scores > 0
 
 
 # ============================================================
