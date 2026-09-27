@@ -53,14 +53,12 @@ def rbf_kernel(A, B, gamma):
     return np.exp(-gamma * sq_dists)
 
 
-
 def kernel_objective(alpha, K, y, lam):
     """(1/n) sum_i logistic loss of score (K alpha)_i vs y_i + (lam/2) alpha^T K alpha
     (Lecture 04's kernel logistic regression slide). Hint: logistic_loss(w, X, y)
     computes the mean loss of the scores X @ w."""
     # TODO: implement
     return logistic_loss(alpha, K, y) + (lam / 2) * (alpha @ K @ alpha)
-
 
 
 def kernel_gradient(alpha, K, y, lam):
